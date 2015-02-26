@@ -1,0 +1,1034 @@
+
+Apache CouchDB 1.6.1 (LogLevel=debug) is starting.
+Configuration Settings ["/usr/local/etc/couchdb/default.ini",
+                        "/usr/local/etc/couchdb/local.ini",
+                        "/usr/local/etc/couchdb/default.ini",
+                        "/usr/local/etc/couchdb/local.ini"]:
+  [attachments] compressible_types="text/*, application/javascript, application/json, application/xml"
+  [attachments] compression_level="8"
+  [compaction_daemon] check_interval="300"
+  [compaction_daemon] min_file_size="131072"
+  [cors] credentials="true"
+  [cors] origins="*"
+  [couch_httpd_auth] allow_persistent_cookies="false"
+  [couch_httpd_auth] auth_cache_size="50"
+  [couch_httpd_auth] authentication_db="_users"
+  [couch_httpd_auth] authentication_redirect="/_utils/session.html"
+  [couch_httpd_auth] iterations="10"
+  [couch_httpd_auth] require_valid_user="false"
+  [couch_httpd_auth] timeout="600"
+  [couch_httpd_oauth] use_users_db="false"
+  [couchdb] attachment_stream_buffer_size="4096"
+  [couchdb] database_dir="/usr/local/var/lib/couchdb"
+  [couchdb] delayed_commits="true"
+  [couchdb] file_compression="snappy"
+  [couchdb] max_dbs_open="100"
+  [couchdb] max_document_size="4294967296"
+  [couchdb] os_process_timeout="5000"
+  [couchdb] plugin_dir="/usr/local/Cellar/couchdb/1.6.1_1/lib/couchdb/plugins"
+  [couchdb] uri_file="/usr/local/var/run/couchdb/couch.uri"
+  [couchdb] util_driver_dir="/usr/local/Cellar/couchdb/1.6.1_1/lib/couchdb/erlang/lib/couch-1.6.1/priv/lib"
+  [couchdb] uuid="d9cb64bf3a93fd8ec0e5023b669c82cf"
+  [couchdb] view_index_dir="/usr/local/var/lib/couchdb"
+  [daemons] auth_cache="{couch_auth_cache, start_link, []}"
+  [daemons] compaction_daemon="{couch_compaction_daemon, start_link, []}"
+  [daemons] external_manager="{couch_external_manager, start_link, []}"
+  [daemons] httpd="{couch_httpd, start_link, []}"
+  [daemons] index_server="{couch_index_server, start_link, []}"
+  [daemons] os_daemons="{couch_os_daemons, start_link, []}"
+  [daemons] query_servers="{couch_query_servers, start_link, []}"
+  [daemons] replicator_manager="{couch_replicator_manager, start_link, []}"
+  [daemons] stats_aggregator="{couch_stats_aggregator, start, []}"
+  [daemons] stats_collector="{couch_stats_collector, start, []}"
+  [daemons] uuids="{couch_uuids, start, []}"
+  [daemons] vhosts="{couch_httpd_vhost, start_link, []}"
+  [database_compaction] checkpoint_after="5242880"
+  [database_compaction] doc_buffer_size="524288"
+  [http] origins="*"
+  [httpd] allow_jsonp="false"
+  [httpd] authentication_handlers="{couch_httpd_oauth, oauth_authentication_handler}, {couch_httpd_auth, cookie_authentication_handler}, {couch_httpd_auth, default_authentication_handler}"
+  [httpd] bind_address="127.0.0.1"
+  [httpd] default_handler="{couch_httpd_db, handle_request}"
+  [httpd] enable_cors="true"
+  [httpd] log_max_chunk_size="1000000"
+  [httpd] origins="*"
+  [httpd] port="5984"
+  [httpd] secure_rewrites="true"
+  [httpd] socket_options="[{recbuf, 262144}, {sndbuf, 262144}]"
+  [httpd] vhost_global_handlers="_utils, _uuids, _session, _oauth, _users"
+  [httpd_db_handlers] _all_docs="{couch_mrview_http, handle_all_docs_req}"
+  [httpd_db_handlers] _changes="{couch_httpd_db, handle_changes_req}"
+  [httpd_db_handlers] _compact="{couch_httpd_db, handle_compact_req}"
+  [httpd_db_handlers] _design="{couch_httpd_db, handle_design_req}"
+  [httpd_db_handlers] _temp_view="{couch_mrview_http, handle_temp_view_req}"
+  [httpd_db_handlers] _view_cleanup="{couch_mrview_http, handle_cleanup_req}"
+  [httpd_design_handlers] _compact="{couch_mrview_http, handle_compact_req}"
+  [httpd_design_handlers] _info="{couch_mrview_http, handle_info_req}"
+  [httpd_design_handlers] _list="{couch_mrview_show, handle_view_list_req}"
+  [httpd_design_handlers] _rewrite="{couch_httpd_rewrite, handle_rewrite_req}"
+  [httpd_design_handlers] _show="{couch_mrview_show, handle_doc_show_req}"
+  [httpd_design_handlers] _update="{couch_mrview_show, handle_doc_update_req}"
+  [httpd_design_handlers] _view="{couch_mrview_http, handle_view_req}"
+  [httpd_global_handlers] /="{couch_httpd_misc_handlers, handle_welcome_req, <<\"Welcome\">>}"
+  [httpd_global_handlers] _active_tasks="{couch_httpd_misc_handlers, handle_task_status_req}"
+  [httpd_global_handlers] _all_dbs="{couch_httpd_misc_handlers, handle_all_dbs_req}"
+  [httpd_global_handlers] _config="{couch_httpd_misc_handlers, handle_config_req}"
+  [httpd_global_handlers] _db_updates="{couch_dbupdates_httpd, handle_req}"
+  [httpd_global_handlers] _log="{couch_httpd_misc_handlers, handle_log_req}"
+  [httpd_global_handlers] _oauth="{couch_httpd_oauth, handle_oauth_req}"
+  [httpd_global_handlers] _plugins="{couch_plugins_httpd, handle_req}"
+  [httpd_global_handlers] _replicate="{couch_replicator_httpd, handle_req}"
+  [httpd_global_handlers] _restart="{couch_httpd_misc_handlers, handle_restart_req}"
+  [httpd_global_handlers] _session="{couch_httpd_auth, handle_session_req}"
+  [httpd_global_handlers] _stats="{couch_httpd_stats_handlers, handle_stats_req}"
+  [httpd_global_handlers] _utils="{couch_httpd_misc_handlers, handle_utils_dir_req, \"/usr/local/Cellar/couchdb/1.6.1_1/share/couchdb/www\"}"
+  [httpd_global_handlers] _uuids="{couch_httpd_misc_handlers, handle_uuids_req}"
+  [httpd_global_handlers] favicon.ico="{couch_httpd_misc_handlers, handle_favicon_req, \"/usr/local/Cellar/couchdb/1.6.1_1/share/couchdb/www\"}"
+  [log] file="/usr/local/var/log/couchdb/couch.log"
+  [log] include_sasl="true"
+  [log] level="debug"
+  [query_server_config] os_process_limit="25"
+  [query_server_config] reduce_limit="true"
+  [query_servers] coffeescript="/usr/local/Cellar/couchdb/1.6.1_1/bin/couchjs /usr/local/Cellar/couchdb/1.6.1_1/share/couchdb/server/main-coffee.js"
+  [query_servers] javascript="/usr/local/Cellar/couchdb/1.6.1_1/bin/couchjs /usr/local/Cellar/couchdb/1.6.1_1/share/couchdb/server/main.js"
+  [replicator] connection_timeout="30000"
+  [replicator] db="_replicator"
+  [replicator] http_connections="20"
+  [replicator] max_replication_retry_count="10"
+  [replicator] retries_per_request="10"
+  [replicator] socket_options="[{keepalive, true}, {nodelay, false}]"
+  [replicator] ssl_certificate_max_depth="3"
+  [replicator] verify_ssl_certificates="false"
+  [replicator] worker_batch_size="500"
+  [replicator] worker_processes="4"
+  [ssl] port="6984"
+  [ssl] ssl_certificate_max_depth="1"
+  [ssl] verify_ssl_certificates="false"
+  [stats] rate="1000"
+  [stats] samples="[0, 60, 300, 900]"
+  [uuids] algorithm="sequential"
+  [uuids] max_count="1000"
+  [vendor] name="Homebrew"
+  [vendor] version="1.6.1-1"
+  [view_compaction] keyvalue_buffer_size="2097152"
+Apache CouchDB has started. Time to relax.
+[info] [<0.31.0>] Apache CouchDB has started on http://127.0.0.1:5984/
+[debug] [<0.116.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[error] [<0.1946.0>] Could not open file /usr/local/var/lib/couchdb/swagger_docs.couch: file already exists
+[debug] [<0.116.0>] Minor error in HTTP request: file_exists
+[debug] [<0.116.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.116.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.116.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.116.0>] 'GET' /swagger_docs/swagger_resource {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[info] [<0.116.0>] 127.0.0.1 - - GET /swagger_docs/swagger_resource 200
+[debug] [<0.116.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[debug] [<0.116.0>] Minor error in HTTP request: file_exists
+[debug] [<0.116.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.116.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.116.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.116.0>] 'GET' /swagger_docs/resource_addresses {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[info] [<0.116.0>] 127.0.0.1 - - GET /swagger_docs/resource_addresses 200
+[debug] [<0.116.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[debug] [<0.116.0>] Minor error in HTTP request: file_exists
+[debug] [<0.116.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.116.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.116.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.116.0>] 'GET' /swagger_docs/resource_artifacts {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[info] [<0.116.0>] 127.0.0.1 - - GET /swagger_docs/resource_artifacts 200
+[debug] [<0.116.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[debug] [<0.116.0>] Minor error in HTTP request: file_exists
+[debug] [<0.116.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.116.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.116.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.116.0>] 'GET' /swagger_docs/resource_contacts {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[info] [<0.116.0>] 127.0.0.1 - - GET /swagger_docs/resource_contacts 200
+[debug] [<0.116.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[debug] [<0.116.0>] Minor error in HTTP request: file_exists
+[debug] [<0.116.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.116.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.116.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.116.0>] 'GET' /swagger_docs/resource_locations {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[info] [<0.116.0>] 127.0.0.1 - - GET /swagger_docs/resource_locations 200
+[debug] [<0.116.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[debug] [<0.116.0>] Minor error in HTTP request: file_exists
+[debug] [<0.116.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.116.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.116.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.116.0>] 'GET' /swagger_docs/resource_moneyflows {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[info] [<0.116.0>] 127.0.0.1 - - GET /swagger_docs/resource_moneyflows 200
+[debug] [<0.116.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[debug] [<0.116.0>] Minor error in HTTP request: file_exists
+[debug] [<0.116.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.116.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.116.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.116.0>] 'GET' /swagger_docs/resource_organizations {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[info] [<0.116.0>] 127.0.0.1 - - GET /swagger_docs/resource_organizations 200
+[debug] [<0.116.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[debug] [<0.116.0>] Minor error in HTTP request: file_exists
+[debug] [<0.116.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.116.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.116.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.116.0>] 'GET' /swagger_docs/resource_people {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[info] [<0.116.0>] 127.0.0.1 - - GET /swagger_docs/resource_people 200
+[debug] [<0.116.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[debug] [<0.116.0>] Minor error in HTTP request: file_exists
+[debug] [<0.116.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.116.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.116.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.116.0>] 'GET' /swagger_docs/resource_programs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[info] [<0.116.0>] 127.0.0.1 - - GET /swagger_docs/resource_programs 200
+[debug] [<0.116.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[debug] [<0.116.0>] Minor error in HTTP request: file_exists
+[debug] [<0.116.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.116.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.116.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.116.0>] 'GET' /swagger_docs/resource_projects {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[info] [<0.116.0>] 127.0.0.1 - - GET /swagger_docs/resource_projects 200
+[debug] [<0.116.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[debug] [<0.116.0>] Minor error in HTTP request: file_exists
+[debug] [<0.116.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.116.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.116.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.116.0>] 'GET' /swagger_docs/resource_publications {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[info] [<0.116.0>] 127.0.0.1 - - GET /swagger_docs/resource_publications 200
+[debug] [<0.116.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[debug] [<0.116.0>] Minor error in HTTP request: file_exists
+[debug] [<0.116.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.116.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.116.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.116.0>] 'GET' /swagger_docs/resource_themes {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.116.0>] OAuth Params: []
+[info] [<0.116.0>] 127.0.0.1 - - GET /swagger_docs/resource_themes 200
+[debug] [<0.1945.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[debug] [<0.1945.0>] Minor error in HTTP request: file_exists
+[debug] [<0.1945.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                      [{file,"couch_httpd_db.erl"},
+                                       {line,218}]},
+                                  {couch_httpd,handle_request_int,5,
+                                      [{file,"couch_httpd.erl"},{line,318}]},
+                                  {mochiweb_http,headers,5,
+                                      [{file,"mochiweb_http.erl"},{line,94}]},
+                                  {proc_lib,init_p_do_apply,3,
+                                      [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.1945.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.1945.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.1945.0>] 'GET' /swagger_docs/swagger_resource {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[info] [<0.1945.0>] 127.0.0.1 - - GET /swagger_docs/swagger_resource 200
+[debug] [<0.1945.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[debug] [<0.1945.0>] Minor error in HTTP request: file_exists
+[debug] [<0.1945.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                      [{file,"couch_httpd_db.erl"},
+                                       {line,218}]},
+                                  {couch_httpd,handle_request_int,5,
+                                      [{file,"couch_httpd.erl"},{line,318}]},
+                                  {mochiweb_http,headers,5,
+                                      [{file,"mochiweb_http.erl"},{line,94}]},
+                                  {proc_lib,init_p_do_apply,3,
+                                      [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.1945.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.1945.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.1945.0>] 'GET' /swagger_docs/resource_addresses {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[info] [<0.1945.0>] 127.0.0.1 - - GET /swagger_docs/resource_addresses 200
+[debug] [<0.1945.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[debug] [<0.1945.0>] Minor error in HTTP request: file_exists
+[debug] [<0.1945.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                      [{file,"couch_httpd_db.erl"},
+                                       {line,218}]},
+                                  {couch_httpd,handle_request_int,5,
+                                      [{file,"couch_httpd.erl"},{line,318}]},
+                                  {mochiweb_http,headers,5,
+                                      [{file,"mochiweb_http.erl"},{line,94}]},
+                                  {proc_lib,init_p_do_apply,3,
+                                      [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.1945.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.1945.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.1945.0>] 'GET' /swagger_docs/resource_artifacts {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[info] [<0.1945.0>] 127.0.0.1 - - GET /swagger_docs/resource_artifacts 200
+[debug] [<0.1945.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[debug] [<0.1945.0>] Minor error in HTTP request: file_exists
+[debug] [<0.1945.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                      [{file,"couch_httpd_db.erl"},
+                                       {line,218}]},
+                                  {couch_httpd,handle_request_int,5,
+                                      [{file,"couch_httpd.erl"},{line,318}]},
+                                  {mochiweb_http,headers,5,
+                                      [{file,"mochiweb_http.erl"},{line,94}]},
+                                  {proc_lib,init_p_do_apply,3,
+                                      [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.1945.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.1945.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.1945.0>] 'GET' /swagger_docs/resource_contacts {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[info] [<0.1945.0>] 127.0.0.1 - - GET /swagger_docs/resource_contacts 200
+[debug] [<0.1945.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[debug] [<0.1945.0>] Minor error in HTTP request: file_exists
+[debug] [<0.1945.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                      [{file,"couch_httpd_db.erl"},
+                                       {line,218}]},
+                                  {couch_httpd,handle_request_int,5,
+                                      [{file,"couch_httpd.erl"},{line,318}]},
+                                  {mochiweb_http,headers,5,
+                                      [{file,"mochiweb_http.erl"},{line,94}]},
+                                  {proc_lib,init_p_do_apply,3,
+                                      [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.1945.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.1945.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.1945.0>] 'GET' /swagger_docs/resource_locations {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[info] [<0.1945.0>] 127.0.0.1 - - GET /swagger_docs/resource_locations 200
+[debug] [<0.1945.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[debug] [<0.1945.0>] Minor error in HTTP request: file_exists
+[debug] [<0.1945.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                      [{file,"couch_httpd_db.erl"},
+                                       {line,218}]},
+                                  {couch_httpd,handle_request_int,5,
+                                      [{file,"couch_httpd.erl"},{line,318}]},
+                                  {mochiweb_http,headers,5,
+                                      [{file,"mochiweb_http.erl"},{line,94}]},
+                                  {proc_lib,init_p_do_apply,3,
+                                      [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.1945.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.1945.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.1945.0>] 'GET' /swagger_docs/resource_moneyflows {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[info] [<0.1945.0>] 127.0.0.1 - - GET /swagger_docs/resource_moneyflows 200
+[debug] [<0.1945.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[debug] [<0.1945.0>] Minor error in HTTP request: file_exists
+[debug] [<0.1945.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                      [{file,"couch_httpd_db.erl"},
+                                       {line,218}]},
+                                  {couch_httpd,handle_request_int,5,
+                                      [{file,"couch_httpd.erl"},{line,318}]},
+                                  {mochiweb_http,headers,5,
+                                      [{file,"mochiweb_http.erl"},{line,94}]},
+                                  {proc_lib,init_p_do_apply,3,
+                                      [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.1945.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.1945.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.1945.0>] 'GET' /swagger_docs/resource_organizations {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[info] [<0.1945.0>] 127.0.0.1 - - GET /swagger_docs/resource_organizations 200
+[debug] [<0.1945.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[debug] [<0.1945.0>] Minor error in HTTP request: file_exists
+[debug] [<0.1945.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                      [{file,"couch_httpd_db.erl"},
+                                       {line,218}]},
+                                  {couch_httpd,handle_request_int,5,
+                                      [{file,"couch_httpd.erl"},{line,318}]},
+                                  {mochiweb_http,headers,5,
+                                      [{file,"mochiweb_http.erl"},{line,94}]},
+                                  {proc_lib,init_p_do_apply,3,
+                                      [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.1945.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.1945.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.1945.0>] 'GET' /swagger_docs/resource_people {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[info] [<0.1945.0>] 127.0.0.1 - - GET /swagger_docs/resource_people 200
+[debug] [<0.1945.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[debug] [<0.1945.0>] Minor error in HTTP request: file_exists
+[debug] [<0.1945.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                      [{file,"couch_httpd_db.erl"},
+                                       {line,218}]},
+                                  {couch_httpd,handle_request_int,5,
+                                      [{file,"couch_httpd.erl"},{line,318}]},
+                                  {mochiweb_http,headers,5,
+                                      [{file,"mochiweb_http.erl"},{line,94}]},
+                                  {proc_lib,init_p_do_apply,3,
+                                      [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.1945.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.1945.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.1945.0>] 'GET' /swagger_docs/resource_programs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[info] [<0.1945.0>] 127.0.0.1 - - GET /swagger_docs/resource_programs 200
+[debug] [<0.1945.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[debug] [<0.1945.0>] Minor error in HTTP request: file_exists
+[debug] [<0.1945.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                      [{file,"couch_httpd_db.erl"},
+                                       {line,218}]},
+                                  {couch_httpd,handle_request_int,5,
+                                      [{file,"couch_httpd.erl"},{line,318}]},
+                                  {mochiweb_http,headers,5,
+                                      [{file,"mochiweb_http.erl"},{line,94}]},
+                                  {proc_lib,init_p_do_apply,3,
+                                      [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.1945.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.1945.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.1945.0>] 'GET' /swagger_docs/resource_projects {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[info] [<0.1945.0>] 127.0.0.1 - - GET /swagger_docs/resource_projects 200
+[debug] [<0.1945.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[debug] [<0.1945.0>] Minor error in HTTP request: file_exists
+[debug] [<0.1945.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                      [{file,"couch_httpd_db.erl"},
+                                       {line,218}]},
+                                  {couch_httpd,handle_request_int,5,
+                                      [{file,"couch_httpd.erl"},{line,318}]},
+                                  {mochiweb_http,headers,5,
+                                      [{file,"mochiweb_http.erl"},{line,94}]},
+                                  {proc_lib,init_p_do_apply,3,
+                                      [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.1945.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.1945.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.1945.0>] 'GET' /swagger_docs/resource_publications {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[info] [<0.1945.0>] 127.0.0.1 - - GET /swagger_docs/resource_publications 200
+[debug] [<0.1945.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[debug] [<0.1945.0>] Minor error in HTTP request: file_exists
+[debug] [<0.1945.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                      [{file,"couch_httpd_db.erl"},
+                                       {line,218}]},
+                                  {couch_httpd,handle_request_int,5,
+                                      [{file,"couch_httpd.erl"},{line,318}]},
+                                  {mochiweb_http,headers,5,
+                                      [{file,"mochiweb_http.erl"},{line,94}]},
+                                  {proc_lib,init_p_do_apply,3,
+                                      [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.1945.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.1945.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.1945.0>] 'GET' /swagger_docs/resource_themes {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.1945.0>] OAuth Params: []
+[info] [<0.1945.0>] 127.0.0.1 - - GET /swagger_docs/resource_themes 200
+[debug] [<0.115.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[debug] [<0.115.0>] Minor error in HTTP request: file_exists
+[debug] [<0.115.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.115.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.115.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.115.0>] 'GET' /swagger_docs/swagger_resource {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[info] [<0.115.0>] 127.0.0.1 - - GET /swagger_docs/swagger_resource 200
+[debug] [<0.115.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[debug] [<0.115.0>] Minor error in HTTP request: file_exists
+[debug] [<0.115.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.115.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.115.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.115.0>] 'GET' /swagger_docs/resource_addresses {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[info] [<0.115.0>] 127.0.0.1 - - GET /swagger_docs/resource_addresses 200
+[debug] [<0.115.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[debug] [<0.115.0>] Minor error in HTTP request: file_exists
+[debug] [<0.115.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.115.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.115.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.115.0>] 'GET' /swagger_docs/resource_artifacts {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[info] [<0.115.0>] 127.0.0.1 - - GET /swagger_docs/resource_artifacts 200
+[debug] [<0.115.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[debug] [<0.115.0>] Minor error in HTTP request: file_exists
+[debug] [<0.115.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.115.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.115.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.115.0>] 'GET' /swagger_docs/resource_contacts {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[info] [<0.115.0>] 127.0.0.1 - - GET /swagger_docs/resource_contacts 200
+[debug] [<0.115.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[debug] [<0.115.0>] Minor error in HTTP request: file_exists
+[debug] [<0.115.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.115.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.115.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.115.0>] 'GET' /swagger_docs/resource_locations {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[info] [<0.115.0>] 127.0.0.1 - - GET /swagger_docs/resource_locations 200
+[debug] [<0.115.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[debug] [<0.115.0>] Minor error in HTTP request: file_exists
+[debug] [<0.115.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.115.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.115.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.115.0>] 'GET' /swagger_docs/resource_moneyflows {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[info] [<0.115.0>] 127.0.0.1 - - GET /swagger_docs/resource_moneyflows 200
+[debug] [<0.115.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[debug] [<0.115.0>] Minor error in HTTP request: file_exists
+[debug] [<0.115.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.115.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.115.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.115.0>] 'GET' /swagger_docs/resource_organizations {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[info] [<0.115.0>] 127.0.0.1 - - GET /swagger_docs/resource_organizations 200
+[debug] [<0.115.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[debug] [<0.115.0>] Minor error in HTTP request: file_exists
+[debug] [<0.115.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.115.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.115.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.115.0>] 'GET' /swagger_docs/resource_people {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[info] [<0.115.0>] 127.0.0.1 - - GET /swagger_docs/resource_people 200
+[debug] [<0.115.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[debug] [<0.115.0>] Minor error in HTTP request: file_exists
+[debug] [<0.115.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.115.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.115.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.115.0>] 'GET' /swagger_docs/resource_programs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[info] [<0.115.0>] 127.0.0.1 - - GET /swagger_docs/resource_programs 200
+[debug] [<0.115.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[debug] [<0.115.0>] Minor error in HTTP request: file_exists
+[debug] [<0.115.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.115.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.115.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.115.0>] 'GET' /swagger_docs/resource_projects {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[info] [<0.115.0>] 127.0.0.1 - - GET /swagger_docs/resource_projects 200
+[debug] [<0.115.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[debug] [<0.115.0>] Minor error in HTTP request: file_exists
+[debug] [<0.115.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.115.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.115.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.115.0>] 'GET' /swagger_docs/resource_publications {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[info] [<0.115.0>] 127.0.0.1 - - GET /swagger_docs/resource_publications 200
+[debug] [<0.115.0>] 'PUT' /swagger_docs {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Content-Length',"0"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[debug] [<0.115.0>] Minor error in HTTP request: file_exists
+[debug] [<0.115.0>] Stacktrace: [{couch_httpd_db,create_db_req,2,
+                                     [{file,"couch_httpd_db.erl"},{line,218}]},
+                                 {couch_httpd,handle_request_int,5,
+                                     [{file,"couch_httpd.erl"},{line,318}]},
+                                 {mochiweb_http,headers,5,
+                                     [{file,"mochiweb_http.erl"},{line,94}]},
+                                 {proc_lib,init_p_do_apply,3,
+                                     [{file,"proc_lib.erl"},{line,237}]}]
+[info] [<0.115.0>] 127.0.0.1 - - PUT /swagger_docs 412
+[debug] [<0.115.0>] httpd 412 error response:
+ {"error":"file_exists","reason":"The database could not be created, the file already exists."}
+
+[debug] [<0.115.0>] 'GET' /swagger_docs/resource_themes {1,1} from "127.0.0.1"
+Headers: [{'Accept-Encoding',"gzip"},
+          {'Host',"localhost:5984"},
+          {'User-Agent',"Go 1.1 package http"}]
+[debug] [<0.115.0>] OAuth Params: []
+[info] [<0.115.0>] 127.0.0.1 - - GET /swagger_docs/resource_themes 200
+
+=INFO REPORT==== 22-Feb-2015::04:55:02 ===
+    alarm_handler: {set,
+                       {{disk_almost_full,
+                            "/private/tmp/KSInstallAction.umeozQYaN3/m"},
+                        []}}

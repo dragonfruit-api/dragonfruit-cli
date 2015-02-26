@@ -1,0 +1,11 @@
+<nav>
+  <div class="hamburger"></div>
+  <img src="images/black_book_logo.svg">
+</nav>
+<main>
+  <section class="vendor-list-holder">
+    <div ng-repeat="(index,vendor) in vendors" class="vendor" ng-click="showVendor(index)">
+      <div class="name">{{vendor.name}}</div>
+    </div>
+  </section>
+</main>
