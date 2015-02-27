@@ -1,0 +1,86 @@
+{
+	"ImportPath": "github.com/ideo/black_book",
+	"GoVersion": "go1.4.2",
+	"Deps": [
+		{
+			"ImportPath": "code.google.com/p/go-uuid/uuid",
+			"Comment": "null-15",
+			"Rev": "35bc42037350f0078e3c974c6ea690f1926603ab"
+		},
+		{
+			"ImportPath": "github.com/boj/redistore",
+			"Comment": "v1",
+			"Rev": "9d1554b400d726c7aa54b6e4a836f273b72b97f7"
+		},
+		{
+			"ImportPath": "github.com/codegangsta/inject",
+			"Comment": "v1.0-rc1-10-g33e0aa1",
+			"Rev": "33e0aa1cb7c019ccc3fbe049a8262a6403d30504"
+		},
+		{
+			"ImportPath": "github.com/fjl/go-couchdb",
+			"Rev": "1f327c218d24c98ba4067e086a2787c1488ba558"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/internal",
+			"Rev": "785e0ca9319196b94fd61abd4c9eab5c11777377"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/redis",
+			"Rev": "785e0ca9319196b94fd61abd4c9eab5c11777377"
+		},
+		{
+			"ImportPath": "github.com/gedex/inflector",
+			"Rev": "8c0e57904488c554ab26caec525db5c92b23f051"
+		},
+		{
+			"ImportPath": "github.com/go-martini/martini",
+			"Comment": "v1.0-114-g6241001",
+			"Rev": "6241001738f6e1b1ea7c4a4089195e1b0681609a"
+		},
+		{
+			"ImportPath": "github.com/gorilla/context",
+			"Rev": "215affda49addc4c8ef7e2534915df2c8c35c6cd"
+		},
+		{
+			"ImportPath": "github.com/gorilla/securecookie",
+			"Rev": "5f171f42328bdd573211bb82bdee8f259c4c61ae"
+		},
+		{
+			"ImportPath": "github.com/gorilla/sessions",
+			"Rev": "39dd83d692d0cb984af851b38e89b0cd8ea302b6"
+		},
+		{
+			"ImportPath": "github.com/ideo/dragonfruit",
+			"Rev": "8aea10493770d0e719f2a327cf1c58ea0fd61877"
+		},
+		{
+			"ImportPath": "github.com/martini-contrib/gzip",
+			"Rev": "01cd70f560c841c6e52b9ba8f09748e18e35e2c4"
+		},
+		{
+			"ImportPath": "github.com/martini-contrib/oauth2",
+			"Rev": "383220cdf3349109f5ced723c921d4d76478176c"
+		},
+		{
+			"ImportPath": "github.com/martini-contrib/sessions",
+			"Rev": "fa13114fbcf036dff8185d728651d85fcef772db"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "b6fdb7d8a4ccefede406f8fe0f017fb58265054c"
+		},
+		{
+			"ImportPath": "golang.org/x/oauth2",
+			"Rev": "5738e56ec6627e751bdd72e19c00a2d4be2349a6"
+		},
+		{
+			"ImportPath": "google.golang.org/cloud/compute/metadata",
+			"Rev": "fffe461e194e54255fea3954c7197e300dc87811"
+		},
+		{
+			"ImportPath": "google.golang.org/cloud/internal",
+			"Rev": "fffe461e194e54255fea3954c7197e300dc87811"
+		}
+	]
+}
