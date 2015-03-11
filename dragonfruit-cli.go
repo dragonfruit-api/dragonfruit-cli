@@ -41,43 +41,52 @@ type gplususer struct {
 }
 
 func main() {
-	serve, add := parseFlags()
+	cnf, serve, add := parseFlags()
 
 	// dragonfruit setup
 	d := backend_couchdb.Db_backend_couch{}
-	d.Connect("http://localhost:5984")
+	d.Connect("http://" + cnf.DbServer + ":" + cnf.DbPort)
 
 	if add {
-		addResouce(&d)
+		addResouce(&d, cnf)
 	}
 
 	if serve {
-		launchServer(&d)
+		launchServer(&d, cnf)
 	}
 
 }
 
-func launchServer(d dragonfruit.Db_backend) *martini.ClassicMartini {
+func launchServer(d dragonfruit.Db_backend, cnf dragonfruit.Conf) *martini.ClassicMartini {
+	wd, _ := os.Getwd()
+	fmt.Println("conf:", cnf.StaticDirs, wd)
+	st_opts := martini.StaticOptions{}
+	st_opts.Prefix = wd
+	fmt.Println(st_opts)
+	m := dragonfruit.GetMartiniInstance(cnf)
 
-	m := dragonfruit.GetMartiniInstance()
+	//m.Use(martini.Static(wd))
 
-	dragonfruit.ServeDocSet(d)
+	for _, dir := range cnf.StaticDirs {
+
+		fmt.Println(dir, wd)
+		m.Use(martini.Static(dir))
+	}
+
+	dragonfruit.ServeDocSet(d, cnf)
 
 	m.Use(sessions.Sessions("my_session", sessions.NewCookieStore([]byte("secret123"))))
 
 	m.Use(gzip.All())
-	m.Use(martini.Static("static/dist"))
-	//m.Use(martini.Static("../static/.tmp"))
-	m.Use(martini.Static("static"))
 
-	conf := &goauth2.Config{
+	oauthConf := &goauth2.Config{
 		ClientID:     "288198830216-s4klktd4qm3asq72sm7acifugcumdseq.apps.googleusercontent.com",
 		ClientSecret: "zzKEh5RPFhaEeJOsQi-D34Rc",
 		Scopes: []string{
 			"https://www.googleapis.com/auth/userinfo.email"},
-		RedirectURL: "http://localhost:3000/oauth2callback",
+		RedirectURL: "http://" + cnf.Host + ":" + cnf.Port + "/oauth2callback",
 	}
-	m.Use(oauth2.Google(conf))
+	m.Use(oauth2.Google(oauthConf))
 	m.Post("/checkauth", oauth2.LoginRequired, func(tokens oauth2.Tokens, res http.ResponseWriter, s sessions.Session) (int, string) {
 		h := res.Header()
 		h.Add("Content-Type", "application/json; charset=utf-8")
@@ -89,7 +98,7 @@ func launchServer(d dragonfruit.Db_backend) *martini.ClassicMartini {
 			result.IsLoggedIn = false
 			code = 403
 		}
-		test, user := checkAuth(conf, tokens)
+		test, user := checkAuth(oauthConf, tokens)
 
 		if !test {
 			result.IsLoggedIn = false
@@ -98,19 +107,14 @@ func launchServer(d dragonfruit.Db_backend) *martini.ClassicMartini {
 			result.IsLoggedIn = true
 			result.User = user
 		}
-		fmt.Println(result)
 		out, err := json.Marshal(result)
-		fmt.Println(out)
 		if err != nil {
 			code = 500
 		}
-		//fmt.Println(out)
-		//fmt.Println(resp, string(out))
-
 		return code, string(out)
 	})
 
-	m.Run()
+	m.RunOnAddr(cnf.Host + ":" + cnf.Port)
 	return m
 }
 
@@ -134,14 +138,10 @@ func checkAuth(conf *goauth2.Config, tokens oauth2.Tokens) (bool, gplususer) {
 	resp, err := client.Get("https://www.googleapis.com/plus/v1/people/me")
 	defer resp.Body.Close()
 
-	fmt.Println("call error:", err)
 	out, err := ioutil.ReadAll(resp.Body)
 
-	fmt.Println("read error:", err)
 	var user gplususer
 	json.Unmarshal(out, &user)
-
-	fmt.Println(user)
 
 	for _, v := range user.Emails {
 		if strings.Contains(v.Value, "ideo.com") {
@@ -154,9 +154,9 @@ func checkAuth(conf *goauth2.Config, tokens oauth2.Tokens) (bool, gplususer) {
 }
 
 /* shamelessly cut and paste from the dragonfruit api builder */
-func addResouce(d dragonfruit.Db_backend) {
-	rd, err := dragonfruit.LoadDescriptionFromDb(d, "resourceTemplate.json")
-	res, err := dragonfruit.NewFromTemplate("resourceTemplate.json")
+func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
+	rd, err := dragonfruit.LoadDescriptionFromDb(d, cnf)
+	res := cnf.ResourceTemplate
 
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -226,7 +226,7 @@ func addResouce(d dragonfruit.Db_backend) {
 		fmt.Println(err)
 	}
 
-	modelMap, err := dragonfruit.Decompose(byt, modelType)
+	modelMap, err := dragonfruit.Decompose(byt, modelType, cnf)
 
 	res.Models = modelMap
 	upstreamParams := make([]*dragonfruit.Property, 0)
@@ -234,7 +234,8 @@ func addResouce(d dragonfruit.Db_backend) {
 		path,
 		strings.Title(resourceType),
 		modelMap,
-		upstreamParams)
+		upstreamParams,
+		cnf)
 
 	res.Apis = append(res.Apis, apis...)
 
@@ -249,10 +250,28 @@ func addResouce(d dragonfruit.Db_backend) {
 
 }
 
-func parseFlags() (bool, bool) {
+func parseFlags() (dragonfruit.Conf, bool, bool) {
+	// set up a config object
+	cnf := dragonfruit.Conf{}
+
+	/* should we start a server? */
 	var serve = flag.Bool("serve", true, "Start a server after running")
+	/* should we try to parse a resource? */
 	var addresource = flag.Bool("add", false, "Add a new resource")
 
+	var conflocation = flag.String("conf", "/etc/dragonfruit/dragonfruit.conf", "Path to a config file.")
+
 	flag.Parse()
-	return *serve, *addresource
+
+	out, err := ioutil.ReadFile(*conflocation)
+	if err != nil {
+		panic("cannot find file " + *conflocation)
+	}
+
+	err = json.Unmarshal(out, &cnf)
+	if err != nil {
+		panic(err)
+	}
+
+	return cnf, *serve, *addresource
 }
