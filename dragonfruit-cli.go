@@ -127,6 +127,7 @@ func returnSuccess(res http.ResponseWriter) (int, string) {
 }
 
 func checkAuth(conf *goauth2.Config, tokens oauth2.Tokens) (bool, gplususer) {
+	var user gplususer
 	//fmt.Println(tokens)
 	tok := &goauth2.Token{
 		AccessToken:  tokens.Access(),
@@ -138,9 +139,12 @@ func checkAuth(conf *goauth2.Config, tokens oauth2.Tokens) (bool, gplususer) {
 	resp, err := client.Get("https://www.googleapis.com/plus/v1/people/me")
 	defer resp.Body.Close()
 
+	if err != nil {
+		return false, user
+	}
+
 	out, err := ioutil.ReadAll(resp.Body)
 
-	var user gplususer
 	json.Unmarshal(out, &user)
 
 	for _, v := range user.Emails {
@@ -259,7 +263,7 @@ func parseFlags() (dragonfruit.Conf, bool, bool) {
 	/* should we try to parse a resource? */
 	var addresource = flag.Bool("add", false, "Add a new resource")
 
-	var conflocation = flag.String("conf", "/etc/dragonfruit/dragonfruit.conf", "Path to a config file.")
+	var conflocation = flag.String("conf", "/etc/dragonfruit.conf", "Path to a config file.")
 
 	flag.Parse()
 
