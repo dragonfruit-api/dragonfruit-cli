@@ -263,7 +263,7 @@ func parseFlags() (dragonfruit.Conf, bool, bool) {
 	/* should we try to parse a resource? */
 	var addresource = flag.Bool("add", false, "Add a new resource")
 
-	var conflocation = flag.String("conf", "/etc/dragonfruit.conf", "Path to a config file.")
+	var conflocation = flag.String("conf", "/usr/local/etc/dragonfruit.conf", "Path to a config file.")
 
 	flag.Parse()
 
