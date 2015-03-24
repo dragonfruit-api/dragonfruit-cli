@@ -41,6 +41,7 @@ type gplususer struct {
 }
 
 func main() {
+	fmt.Println("\n\n\033[31m~~~~~Dragon\033[32mFruit~~~~~\033[0m\n\n")
 	cnf, serve, add := parseFlags()
 
 	// dragonfruit setup
@@ -59,17 +60,12 @@ func main() {
 
 func launchServer(d dragonfruit.Db_backend, cnf dragonfruit.Conf) *martini.ClassicMartini {
 	wd, _ := os.Getwd()
-	fmt.Println("conf:", cnf.StaticDirs, wd)
 	st_opts := martini.StaticOptions{}
 	st_opts.Prefix = wd
-	fmt.Println(st_opts)
 	m := dragonfruit.GetMartiniInstance(cnf)
-
-	//m.Use(martini.Static(wd))
 
 	for _, dir := range cnf.StaticDirs {
 
-		fmt.Println(dir, wd)
 		m.Use(martini.Static(dir))
 	}
 
@@ -166,7 +162,7 @@ func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
 
 	res.BasePath = "/api"
 
-	fmt.Print("enter a base path for all APIs (press [enter] for \"" + res.BasePath + "\"):")
+	fmt.Print("\033[1mEnter a base path for all APIs\033[0m (press [enter] for \"" + res.BasePath + "\"):")
 	scanner.Scan()
 
 	tmpBasepath := scanner.Text()
@@ -174,7 +170,7 @@ func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
 		res.BasePath = tmpBasepath
 	}
 
-	fmt.Print("enter a resource type: ")
+	fmt.Print("\033[1mEnter the resource type for this API:\033[0m ")
 
 	// resource type
 	scanner.Scan()
@@ -187,7 +183,7 @@ func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
 
 	defaultText := "Describes operations on " + path
 	// description
-	fmt.Print("describe what the ", path, " service will do (press [enter] for \""+defaultText+"\"):")
+	fmt.Print("\033[1mDescribe what the ", path, " service will do\033[0m (press [enter] for \""+defaultText+"\"):")
 	scanner.Scan()
 	resourceDescription := scanner.Text()
 	if resourceDescription == "" {
@@ -214,7 +210,7 @@ func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
 		rd.APIs = append(rd.APIs, &tmp)
 	}
 
-	fmt.Print("What is the base model that this resource returns? (press [enter] for \"", resourceType, "\"):")
+	fmt.Print("\033[1mWhat is the base model that this API returns?\033[0m (press [enter] for \"", resourceType, "\"):")
 	res.ResourcePath = "/" + path
 	scanner.Scan()
 	modelType := scanner.Text()
@@ -222,7 +218,7 @@ func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
 		modelType = resourceType
 	}
 
-	fmt.Print("Enter a path to some sample data: ")
+	fmt.Print("\033[1mEnter a path to some sample data:\033[0m ")
 	scanner.Scan()
 	fname := scanner.Text()
 	byt, err := ioutil.ReadFile(fname)
