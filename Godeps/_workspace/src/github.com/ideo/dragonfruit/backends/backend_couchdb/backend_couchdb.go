@@ -10,6 +10,7 @@ import (
 	"github.com/gedex/inflector"
 	"github.com/ideo/dragonfruit"
 	"os/exec"
+	"reflect"
 	"strconv"
 	"strings"
 	"time"
@@ -290,30 +291,211 @@ func getDatabaseName(params dragonfruit.QueryParams) (database string) {
 
 // Update updates a document
 // TODO - partial document updates
-func (d *Db_backend_couch) Update(params dragonfruit.QueryParams) (interface{},
+func (d *Db_backend_couch) Update(params dragonfruit.QueryParams, fullOverwrite bool) (interface{},
 	error) {
 
+	doc, id, err := d.getRootDocument(params)
+	if err != nil {
+		return doc, err
+	}
+
+	pathmap := dragonfruit.PathRe.FindAllStringSubmatch(params.Path, -1)
+
+	//pathmap = pathmap[1:len(pathmap)]
+
+	var v interface{}
+	err = json.Unmarshal(params.Body, &v)
+
+	if v == nil {
+		return v, err
+	}
+
+	var manipulator func(reflect.Value, reflect.Value) (reflect.Value, error)
+
+	if fullOverwrite {
+		manipulator = replace
+	} else {
+		manipulator = partialReplace
+	}
+
+	newdoc, partial, err := findSubDoc(pathmap[1:],
+		params.PathParams,
+		reflect.ValueOf(doc.Value),
+		reflect.ValueOf(v),
+		manipulator)
 	database := getDatabaseName(params)
-	_, result, err := d.queryView(params)
+	_, out, err := d.Save(database, id, newdoc.Interface())
 	if err != nil {
-		return nil, err
+		return out, err
 	}
 
-	if len(result.Rows) == 0 {
-		return nil, errors.New("not found error")
-	}
-
-	var document map[string]interface{}
-	err = json.Unmarshal(params.Body, &document)
-	if err != nil {
-		return nil, err
-	}
-	documentId := result.Rows[0].Id
-
-	_, out, err := d.Save(database, documentId, document)
+	out, err = sanitizeDoc(partial.Interface())
 
 	return out, err
 
+}
+
+func sanitizeDoc(doc interface{}) (interface{}, error) {
+	out, err := sanitizeDocInternal(reflect.ValueOf(doc))
+	if err != nil {
+		return doc, err
+	}
+	return out.Interface(), nil
+}
+
+func sanitizeDocInternal(doc reflect.Value) (reflect.Value, error) {
+	switch doc.Kind() {
+	default:
+		return doc, errors.New("invalid doc type")
+	case reflect.Interface:
+		return sanitizeDocInternal(doc.Elem())
+		break
+	case reflect.Map:
+
+		for _, key := range doc.MapKeys() {
+			if key.String() == "_id" ||
+				key.String() == "_rev" {
+
+				doc.SetMapIndex(key, reflect.ValueOf(nil))
+			}
+		}
+	}
+	return doc, nil
+}
+
+/* findSubDoc uses reflection to aSADSDhsadvghds what is that burnt toast smell? */
+func findSubDoc(pathslice [][]string,
+	pathParams map[string]interface{},
+	document reflect.Value,
+	bodyParams reflect.Value,
+	// this would literally be easier in Haskell
+	manipulator func(reflect.Value, reflect.Value) (reflect.Value, error)) (reflect.Value, reflect.Value, error) {
+
+	var partial reflect.Value
+
+	if len(pathslice) == 0 {
+		switch bodyParams.Type().Kind() {
+		default:
+			return document, document, errors.New("Body Params must be a map.")
+			break
+		case reflect.Map:
+			outdoc, err := manipulator(document, bodyParams)
+			return outdoc, outdoc, err
+		}
+
+	} else {
+		currKey := pathslice[0][4]
+		currItem := reflect.ValueOf(pathslice[0][2])
+		switch document.Type().Kind() {
+		default:
+			//fmt.Printf("unexpected type %T", document[currItem])
+			break
+
+		case reflect.Interface:
+			// if it's an interface, return the elem
+			newdoc, part, err := findSubDoc(pathslice, pathParams, document.Elem(), bodyParams, manipulator)
+			if err != nil {
+				return document, part, err
+			}
+			document = newdoc
+			partial = part
+			break
+		case reflect.Map:
+			newdoc, part, err := findSubDoc(pathslice, pathParams, document.MapIndex(currItem), bodyParams, manipulator)
+			if err != nil {
+				return document, part, err
+			}
+			document.SetMapIndex(currItem, newdoc)
+			partial = part
+			break
+		case reflect.Slice:
+
+			for i := 0; i < document.Len(); i++ {
+				d := document.Index(i)
+				if d.Kind() == reflect.Interface {
+					d = d.Elem()
+				}
+
+				switch d.Type().Kind() {
+				default:
+					break
+				case reflect.Map:
+					vo := reflect.ValueOf(currKey)
+					if d.MapIndex(vo).Elem().String() == pathParams[currKey] {
+						newdoc, part, err := findSubDoc(pathslice[1:], pathParams, d, bodyParams, manipulator)
+						if err != nil {
+							return document, part, err
+						}
+						document.Index(i).Set(newdoc)
+						partial = part
+					}
+				}
+
+			}
+			break
+
+		}
+
+	}
+
+	return document, partial, nil
+	//return v, nil
+}
+
+func (d *Db_backend_couch) getRootDocument(params dragonfruit.QueryParams) (couchdbRow, string, error) {
+
+	viewpath := dragonfruit.PathRe.FindAllStringSubmatch(params.Path, -1)
+
+	// take the first segment from the update path
+	newPath := viewpath[0][0]
+
+	newPathParams := make(map[string]interface{})
+	newPathParams[viewpath[0][4]] = params.PathParams[viewpath[0][4]]
+
+	newparams := dragonfruit.QueryParams{
+		Path:       newPath,
+		PathParams: newPathParams,
+	}
+
+	_, result, err := d.queryView(newparams)
+	if err != nil {
+		return couchdbRow{}, "", err
+	}
+	if len(result.Rows) == 0 {
+		return couchdbRow{}, "", errors.New("not found error")
+	}
+
+	row := result.Rows[0]
+	id := result.Rows[0].Id
+
+	return row, id, err
+
+}
+
+// Manipulator functions
+
+func replace(original reflect.Value, newDoc reflect.Value) (reflect.Value, error) {
+	return newDoc, nil
+}
+
+func partialReplace(original reflect.Value, newDoc reflect.Value) (reflect.Value, error) {
+	orig := fixStupidInterfaceRefs(original)
+	newer := fixStupidInterfaceRefs(newDoc)
+	if orig.Kind() != reflect.Map || newer.Kind() != reflect.Map {
+		return orig, errors.New("Both document and replacement must be a map")
+	}
+	for _, field := range newer.MapKeys() {
+
+		orig.SetMapIndex(field, newer.MapIndex(field))
+	}
+	return orig, nil
+}
+
+func fixStupidInterfaceRefs(val reflect.Value) reflect.Value {
+	if val.Kind() == reflect.Interface {
+		return val.Elem()
+	}
+	return val
 }
 
 // Insert adds a new document to the database
@@ -328,8 +510,13 @@ func (d *Db_backend_couch) Insert(params dragonfruit.QueryParams) (interface{},
 		return nil, err
 	}
 	_, doc, err := d.Save(database, uuid.New(), document)
+	if err != nil {
+		return doc, err
+	}
 
-	return doc, err
+	out, err := sanitizeDoc(doc)
+
+	return out, err
 
 }
 
@@ -394,7 +581,11 @@ func (d *Db_backend_couch) Query(params dragonfruit.QueryParams) (interface{}, e
 	c.Meta.ResponseMessage = "Ok."
 	c.ContainerType = strings.Title(returnType + strings.Title(dragonfruit.ContainerName))
 	for _, row := range result.Rows {
-		c.Results = append(c.Results, row.Value)
+		outRow, err := sanitizeDoc(row.Value)
+		if err != nil {
+			return c, err
+		}
+		c.Results = append(c.Results, outRow)
 	}
 
 	return c, err
