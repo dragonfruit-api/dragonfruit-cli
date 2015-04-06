@@ -23,6 +23,14 @@ import (
 	goauth2 "golang.org/x/oauth2"
 )
 
+type cnf struct {
+	config         dragonfruit.Conf
+	addInteractive bool
+	serve          bool
+	resourcetype   string
+	resourcefile   string
+}
+
 type loginresult struct {
 	User       gplususer `json:"user"`
 	IsLoggedIn bool      `json:"isLoggedIn"`
@@ -42,18 +50,26 @@ type gplususer struct {
 
 func main() {
 	fmt.Println("\n\n\033[31m~~~~~Dragon\033[32mFruit~~~~~\033[0m\n\n")
-	cnf, serve, add := parseFlags()
+	cnf := parseFlags()
 
 	// dragonfruit setup
 	d := backend_couchdb.Db_backend_couch{}
-	d.Connect("http://" + cnf.DbServer + ":" + cnf.DbPort)
+	d.Connect("http://" + cnf.config.DbServer + ":" + cnf.config.DbPort)
 
-	if add {
-		addResouce(&d, cnf)
+	if (cnf.resourcefile != "" && cnf.resourcetype == "") ||
+		(cnf.resourcefile == "" && cnf.resourcetype != "") {
+		fmt.Println("\033[31;1mYou must enter both a resource file and a resource type if you pass a resource from the command line.\033[0m")
+		return
 	}
 
-	if serve {
-		launchServer(&d, cnf)
+	if cnf.addInteractive {
+		addResouce(&d, cnf.config)
+	} else if cnf.resourcefile != "" {
+		addResourceFromFile(&d, cnf.config, cnf.resourcetype, cnf.resourcefile)
+	}
+
+	if cnf.serve {
+		launchServer(&d, cnf.config)
 	}
 
 }
@@ -153,36 +169,78 @@ func checkAuth(conf *goauth2.Config, tokens oauth2.Tokens) (bool, gplususer) {
 	return false, user
 }
 
+/* addResourceFromFile adds a new resource directly from a file, with the
+standard naming conventions */
+func addResourceFromFile(d dragonfruit.Db_backend,
+	cnf dragonfruit.Conf,
+	resourceType string,
+	fname string) {
+
+	rd, err := dragonfruit.LoadDescriptionFromDb(d, cnf)
+
+	res := cnf.ResourceTemplate
+	res.BasePath = "/api"
+
+	resourceType = inflector.Singularize(resourceType)
+	path := inflector.Pluralize(resourceType)
+
+	resourceDescription := "Describes operations on " + path
+	rd.APIs = makeAPIPath(rd, path, resourceDescription)
+
+	res.ResourcePath = "/" + path
+
+	byt, err := ioutil.ReadFile(fname)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	modelMap, err := dragonfruit.Decompose(byt, resourceType, cnf)
+
+	res.Models = modelMap
+	upstreamParams := make([]*dragonfruit.Property, 0)
+	apis := dragonfruit.MakeCommonAPIs("",
+		path,
+		strings.Title(resourceType),
+		modelMap,
+		upstreamParams,
+		cnf)
+
+	res.Apis = append(res.Apis, apis...)
+
+	rd.Save(d)
+	res.Save(d)
+
+}
+
 /* shamelessly cut and paste from the dragonfruit api builder */
 func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
+
+	// load the existing resource description
 	rd, err := dragonfruit.LoadDescriptionFromDb(d, cnf)
 	res := cnf.ResourceTemplate
 
 	scanner := bufio.NewScanner(os.Stdin)
 
+	// set the base path for all APIs
 	res.BasePath = "/api"
-
 	fmt.Print("\033[1mEnter a base path for all APIs\033[0m (press [enter] for \"" + res.BasePath + "\"):")
 	scanner.Scan()
-
 	tmpBasepath := scanner.Text()
 	if tmpBasepath != "" {
 		res.BasePath = tmpBasepath
 	}
 
+	// set the resource type name
 	fmt.Print("\033[1mEnter the resource type for this API:\033[0m ")
-
-	// resource type
 	scanner.Scan()
 	resourceType := inflector.Singularize(scanner.Text())
-
 	path := inflector.Pluralize(resourceType)
 	if err != nil {
 		panic(err)
 	}
 
+	//
 	defaultText := "Describes operations on " + path
-	// description
 	fmt.Print("\033[1mDescribe what the ", path, " service will do\033[0m (press [enter] for \""+defaultText+"\"):")
 	scanner.Scan()
 	resourceDescription := scanner.Text()
@@ -194,21 +252,8 @@ func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
 	}
 
-	ok := true
-	for _, v := range rd.APIs {
-		if v.Path == "/"+path {
-			ok = false
-			break
-		}
-	}
-
-	if ok {
-		tmp := dragonfruit.ResourceSummary{
-			Path:        "/" + path,
-			Description: resourceDescription,
-		}
-		rd.APIs = append(rd.APIs, &tmp)
-	}
+	// add the new path to the Resource Description
+	rd.APIs = makeAPIPath(rd, path, resourceDescription)
 
 	fmt.Print("\033[1mWhat is the base model that this API returns?\033[0m (press [enter] for \"", resourceType, "\"):")
 	res.ResourcePath = "/" + path
@@ -250,14 +295,43 @@ func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
 
 }
 
-func parseFlags() (dragonfruit.Conf, bool, bool) {
+func makeAPIPath(rd *dragonfruit.ResourceDescription,
+	path string,
+	descriptionText string) []*dragonfruit.ResourceSummary {
+
+	ok := true
+	for _, v := range rd.APIs {
+		if v.Path == "/"+path {
+			ok = false
+			return rd.APIs
+		}
+	}
+
+	if ok {
+		tmp := dragonfruit.ResourceSummary{
+			Path:        "/" + path,
+			Description: descriptionText,
+		}
+		return append(rd.APIs, &tmp)
+	}
+	return rd.APIs
+}
+
+func parseFlags() cnf {
+
 	// set up a config object
-	cnf := dragonfruit.Conf{}
+	dfcnf := dragonfruit.Conf{}
 
 	/* should we start a server? */
 	var serve = flag.Bool("serve", true, "Start a server after running")
 	/* should we try to parse a resource? */
-	var addresource = flag.Bool("add", false, "Add a new resource")
+	var addresource = flag.Bool("add", false, "Add a new resource (interactive mode).")
+
+	/* should we try to parse a specific file? */
+	var resourcefile = flag.String("file", "", "Load and parse a resource file (with standard naming).")
+
+	/* If we do parse a file, what is the resource type for that file? */
+	var resourcetype = flag.String("type", "", "The resource type for the file.")
 
 	var conflocation = flag.String("conf", "/usr/local/etc/dragonfruit.conf", "Path to a config file.")
 
@@ -268,10 +342,18 @@ func parseFlags() (dragonfruit.Conf, bool, bool) {
 		panic("cannot find file " + *conflocation)
 	}
 
-	err = json.Unmarshal(out, &cnf)
+	err = json.Unmarshal(out, &dfcnf)
 	if err != nil {
 		panic(err)
 	}
 
-	return cnf, *serve, *addresource
+	outconfig := cnf{
+		config:         dfcnf,
+		addInteractive: *addresource,
+		serve:          *serve,
+		resourcetype:   *resourcetype,
+		resourcefile:   *resourcefile,
+	}
+
+	return outconfig
 }
