@@ -209,6 +209,10 @@ func addResourceFromFile(d dragonfruit.Db_backend,
 
 	rd.Save(d)
 	res.Save(d)
+	preperror := d.Prep(path, res)
+	if preperror != nil {
+		panic(preperror)
+	}
 
 }
 
