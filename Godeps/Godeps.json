@@ -52,7 +52,7 @@
 		},
 		{
 			"ImportPath": "github.com/ideo/dragonfruit",
-			"Rev": "997718dd2f198b3b71f66994860d5ca085c17e81"
+			"Rev": "f4938bb81c5ebcca0a6b9666c73eb08317763417"
 		},
 		{
 			"ImportPath": "github.com/martini-contrib/gzip",
