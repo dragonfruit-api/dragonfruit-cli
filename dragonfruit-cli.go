@@ -54,11 +54,10 @@ type gplususer struct {
 }
 
 func main() {
-	fmt.Println("\n\n\033[31m~~~~~Dragon\033[32mFruit~~~~~\033[0m\n\n")
+	fmt.Println("\n\n\033[31m~~~~~Dragon\033[32mFruit~~~~~\033[0m")
 	cnf := parseFlags()
-
+	fmt.Println("\033[1mVersion", VERSION, "\033[0m\n\n")
 	if cnf.version {
-		fmt.Println("Version", VERSION)
 		return
 	}
 
