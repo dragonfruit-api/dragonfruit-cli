@@ -23,10 +23,15 @@ import (
 	goauth2 "golang.org/x/oauth2"
 )
 
+const (
+	VERSION = "0.4.2"
+)
+
 type cnf struct {
 	config         dragonfruit.Conf
 	addInteractive bool
 	serve          bool
+	version        bool
 	resourcetype   string
 	resourcefile   string
 }
@@ -51,6 +56,11 @@ type gplususer struct {
 func main() {
 	fmt.Println("\n\n\033[31m~~~~~Dragon\033[32mFruit~~~~~\033[0m\n\n")
 	cnf := parseFlags()
+
+	if cnf.version {
+		fmt.Println("Version", VERSION)
+		return
+	}
 
 	// dragonfruit setup
 	d := backend_couchdb.Db_backend_couch{}
@@ -328,6 +338,10 @@ func parseFlags() cnf {
 
 	/* should we start a server? */
 	var serve = flag.Bool("serve", true, "Start a server after running")
+
+	/* should we start a server? */
+	var version = flag.Bool("version", false, "Display the version and terminate.")
+
 	/* should we try to parse a resource? */
 	var addresource = flag.Bool("add", false, "Add a new resource (interactive mode).")
 
@@ -355,6 +369,7 @@ func parseFlags() cnf {
 		config:         dfcnf,
 		addInteractive: *addresource,
 		serve:          *serve,
+		version:        *version,
 		resourcetype:   *resourcetype,
 		resourcefile:   *resourcefile,
 	}
