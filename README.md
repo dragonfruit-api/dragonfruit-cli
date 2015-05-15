@@ -35,5 +35,10 @@ You will need the following:
  
 ### Install Godep and get the source code
  1. `go get github.com/tools/godep` (**Note:** Don't put `git://` or `http://` in front of `github.com` here.)
+ 2. `godep get github.com/ideo/dragonfruit-cli` This will install a binary called `dragonfruit-cli` into the `GOPATH/bin` directory
+ 3. You can now copy the binary somewhere.  If you want to rename it to `dragonfruit`, have a ball. You could also save it to `/usr/local/bin` or something.
  
- 
+## Initialize the database and copy the config files 
+ 1. Type `couchdb -b` to start CouchDB
+ 2. `curl -X PUT http://localhost:5984/swagger_docs`: This creates the swagger doc database
+ 3. Copy the `dragonfruit.conf` file in this folder to `/etc/`
