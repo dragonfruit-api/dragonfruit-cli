@@ -111,6 +111,7 @@ func launchServer(d dragonfruit.Db_backend, cnf dragonfruit.Conf) *martini.Class
 	m.Post("/checkauth", oauth2.LoginRequired, func(tokens oauth2.Tokens, res http.ResponseWriter, s sessions.Session) (int, string) {
 		h := res.Header()
 		h.Add("Content-Type", "application/json; charset=utf-8")
+
 		code := 200
 
 		result := loginresult{}
@@ -119,6 +120,7 @@ func launchServer(d dragonfruit.Db_backend, cnf dragonfruit.Conf) *martini.Class
 			result.IsLoggedIn = false
 			code = 403
 		}
+
 		test, user := checkAuth(oauthConf, tokens)
 
 		if !test {
