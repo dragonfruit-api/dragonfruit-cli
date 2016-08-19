@@ -24,7 +24,7 @@ import (
 )
 
 const (
-	VERSION = "0.4.2"
+	VERSION = "0.5.2"
 )
 
 type cnf struct {
@@ -94,7 +94,7 @@ func launchServer(d dragonfruit.Db_backend, cnf dragonfruit.Conf) *martini.Class
 		m.Use(martini.Static(dir))
 	}
 
-	dragonfruit.ServeDocSet(d, cnf)
+	dragonfruit.ServeDocSet(m, d, cnf)
 
 	m.Use(sessions.Sessions("my_session", sessions.NewCookieStore([]byte("secret123"))))
 
@@ -187,18 +187,10 @@ func addResourceFromFile(d dragonfruit.Db_backend,
 	resourceType string,
 	fname string) {
 
-	rd, err := dragonfruit.LoadDescriptionFromDb(d, cnf)
-
-	res := cnf.ResourceTemplate
-	res.BasePath = "/api"
+	sw, err := dragonfruit.LoadDescriptionFromDb(d, cnf)
 
 	resourceType = inflector.Singularize(resourceType)
 	path := inflector.Pluralize(resourceType)
-
-	resourceDescription := "Describes operations on " + path
-	rd.APIs = makeAPIPath(rd, path, resourceDescription)
-
-	res.ResourcePath = "/" + path
 
 	byt, err := ioutil.ReadFile(fname)
 	if err != nil {
@@ -206,21 +198,23 @@ func addResourceFromFile(d dragonfruit.Db_backend,
 	}
 
 	modelMap, err := dragonfruit.Decompose(byt, resourceType, cnf)
+	fmt.Println(sw.Definitions, err)
 
-	res.Models = modelMap
-	upstreamParams := make([]*dragonfruit.Property, 0)
-	apis := dragonfruit.MakeCommonAPIs("",
+	sw.Definitions = modelMap
+	upstreamParams := make([]*dragonfruit.Parameter, 0)
+	pathitems := dragonfruit.MakeCommonAPIs("",
 		path,
 		strings.Title(resourceType),
 		modelMap,
 		upstreamParams,
 		cnf)
 
-	res.Apis = append(res.Apis, apis...)
+	for k, v := range pathitems {
+		sw.Paths[k] = v
+	}
 
-	rd.Save(d)
-	res.Save(d)
-	preperror := d.Prep(path, res)
+	sw.Save(d)
+	preperror := d.Prep(path, sw)
 	if preperror != nil {
 		panic(preperror)
 	}
@@ -231,18 +225,17 @@ func addResourceFromFile(d dragonfruit.Db_backend,
 func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
 
 	// load the existing resource description
-	rd, err := dragonfruit.LoadDescriptionFromDb(d, cnf)
-	res := cnf.ResourceTemplate
+	sw, err := dragonfruit.LoadDescriptionFromDb(d, cnf)
 
 	scanner := bufio.NewScanner(os.Stdin)
 
 	// set the base path for all APIs
-	res.BasePath = "/api"
-	fmt.Print("\033[1mEnter a base path for all APIs\033[0m (press [enter] for \"" + res.BasePath + "\"):")
+	sw.BasePath = "/api"
+	fmt.Print("\033[1mEnter a base path for all APIs\033[0m (press [enter] for \"" + sw.BasePath + "\"):")
 	scanner.Scan()
 	tmpBasepath := scanner.Text()
 	if tmpBasepath != "" {
-		res.BasePath = tmpBasepath
+		sw.BasePath = tmpBasepath
 	}
 
 	// set the resource type name
@@ -267,15 +260,12 @@ func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
 	}
 
-	// add the new path to the Resource Description
-	rd.APIs = makeAPIPath(rd, path, resourceDescription)
-
 	fmt.Print("\033[1mWhat is the base model that this API returns?\033[0m (press [enter] for \"", resourceType, "\"):")
-	res.ResourcePath = "/" + path
+	defaultpath := "/" + path
 	scanner.Scan()
 	modelType := scanner.Text()
 	if modelType == "" {
-		modelType = resourceType
+		modelType = defaultpath
 	}
 
 	fmt.Print("\033[1mEnter a path to some sample data:\033[0m ")
@@ -288,8 +278,11 @@ func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
 
 	modelMap, err := dragonfruit.Decompose(byt, modelType, cnf)
 
-	res.Models = modelMap
-	upstreamParams := make([]*dragonfruit.Property, 0)
+	for k, v := range modelMap {
+		sw.Definitions[k] = v
+	}
+
+	upstreamParams := make([]*dragonfruit.Parameter, 0)
 	apis := dragonfruit.MakeCommonAPIs("",
 		path,
 		strings.Title(resourceType),
@@ -297,39 +290,18 @@ func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
 		upstreamParams,
 		cnf)
 
-	res.Apis = append(res.Apis, apis...)
+	for k, v := range apis {
+		sw.Paths[k] = v
+	}
 
-	rd.Save(d)
-	res.Save(d)
-	preperror := d.Prep(path, res)
+	sw.Save(d)
+	preperror := d.Prep(path, sw)
 	if preperror != nil {
 		panic(preperror)
 	}
 
 	fmt.Println("Done!")
 
-}
-
-func makeAPIPath(rd *dragonfruit.ResourceDescription,
-	path string,
-	descriptionText string) []*dragonfruit.ResourceSummary {
-
-	ok := true
-	for _, v := range rd.APIs {
-		if v.Path == "/"+path {
-			ok = false
-			return rd.APIs
-		}
-	}
-
-	if ok {
-		tmp := dragonfruit.ResourceSummary{
-			Path:        "/" + path,
-			Description: descriptionText,
-		}
-		return append(rd.APIs, &tmp)
-	}
-	return rd.APIs
 }
 
 func parseFlags() cnf {
@@ -365,6 +337,7 @@ func parseFlags() cnf {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Printf("%+v\n", dfcnf)
 
 	outconfig := cnf{
 		config:         dfcnf,
@@ -374,6 +347,7 @@ func parseFlags() cnf {
 		resourcetype:   *resourcetype,
 		resourcefile:   *resourcefile,
 	}
+	fmt.Printf("%+v\n", outconfig.config.SwaggerTemplate)
 
 	return outconfig
 }
