@@ -56,7 +56,7 @@ type gplususer struct {
 func main() {
 	fmt.Println("\n\n\033[31m~~~~~Dragon\033[32mFruit~~~~~\033[0m")
 	cnf := parseFlags()
-	fmt.Println("\033[1mVersion", VERSION, "\033[0m\n\n")
+	fmt.Print("\033[1mVersion", VERSION, " \033[0m\n\n\n")
 	if cnf.version {
 		return
 	}
@@ -187,88 +187,38 @@ func addResourceFromFile(d dragonfruit.Db_backend,
 	resourceType string,
 	fname string) {
 
-	sw, err := dragonfruit.LoadDescriptionFromDb(d, cnf)
-
-	resourceType = inflector.Singularize(resourceType)
-	path := inflector.Pluralize(resourceType)
-
 	byt, err := ioutil.ReadFile(fname)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	modelMap, err := dragonfruit.Decompose(byt, resourceType, cnf)
-	fmt.Println(sw.Definitions, err)
-
-	sw.Definitions = modelMap
-	upstreamParams := make([]*dragonfruit.Parameter, 0)
-	pathitems := dragonfruit.MakeCommonAPIs("",
-		path,
-		strings.Title(resourceType),
-		modelMap,
-		upstreamParams,
-		cnf)
-
-	for k, v := range pathitems {
-		sw.Paths[k] = v
-	}
-
-	sw.Save(d)
-	preperror := d.Prep(path, sw)
-	if preperror != nil {
-		panic(preperror)
-	}
-
-}
-
-/* shamelessly cut and paste from the dragonfruit api builder */
-func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
-
-	// load the existing resource description
-	sw, err := dragonfruit.LoadDescriptionFromDb(d, cnf)
-
-	scanner := bufio.NewScanner(os.Stdin)
-
-	// set the base path for all APIs
-	sw.BasePath = "/api"
-	fmt.Print("\033[1mEnter a base path for all APIs\033[0m (press [enter] for \"" + sw.BasePath + "\"):")
-	scanner.Scan()
-	tmpBasepath := scanner.Text()
-	if tmpBasepath != "" {
-		sw.BasePath = tmpBasepath
-	}
-
-	// set the resource type name
-	fmt.Print("\033[1mEnter the resource type for this API:\033[0m ")
-	scanner.Scan()
-	resourceType := inflector.Singularize(scanner.Text())
-	path := inflector.Pluralize(resourceType)
 	if err != nil {
 		panic(err)
 	}
 
-	//
-	defaultText := "Describes operations on " + path
-	fmt.Print("\033[1mDescribe what the ", path, " service will do\033[0m (press [enter] for \""+defaultText+"\"):")
+	err = dragonfruit.RegisterType(d, byt, cnf, resourceType, "")
+	if err != nil {
+		panic(err)
+	}
+
+}
+
+func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
+
+	// start a scanner to read from the command line
+	scanner := bufio.NewScanner(os.Stdin)
+
+	// set the resource type name
+	fmt.Print("\033[1mWhat is the base model that this API returns?\033[0m ")
 	scanner.Scan()
-	resourceDescription := scanner.Text()
-	if resourceDescription == "" {
-		resourceDescription = defaultText
-	}
 
-	if err := scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "reading standard input:", err)
-	}
+	resourceType := inflector.Singularize(scanner.Text())
+	path := inflector.Pluralize(resourceType)
 
-	fmt.Print("\033[1mWhat is the base model that this API returns?\033[0m (press [enter] for \"", resourceType, "\"):")
-	defaultpath := "/" + path
+	fmt.Print("\033[1mWhat is the path for APIs for this model?\033[0m press [enter] for \"", path, "\" ")
 	scanner.Scan()
-	modelType := scanner.Text()
-	if modelType == "" {
-		modelType = defaultpath
+	tmpPath := scanner.Text()
+	if tmpPath != "" {
+		path = tmpPath
 	}
 
-	fmt.Print("\033[1mEnter a path to some sample data:\033[0m ")
+	fmt.Print("\033[1mEnter a path to a sample data file:\033[0m ")
 	scanner.Scan()
 	fname := scanner.Text()
 	byt, err := ioutil.ReadFile(fname)
@@ -276,28 +226,10 @@ func addResouce(d dragonfruit.Db_backend, cnf dragonfruit.Conf) {
 		fmt.Println(err)
 	}
 
-	modelMap, err := dragonfruit.Decompose(byt, modelType, cnf)
+	err = dragonfruit.RegisterType(d, byt, cnf, resourceType, path)
 
-	for k, v := range modelMap {
-		sw.Definitions[k] = v
-	}
-
-	upstreamParams := make([]*dragonfruit.Parameter, 0)
-	apis := dragonfruit.MakeCommonAPIs("",
-		path,
-		strings.Title(resourceType),
-		modelMap,
-		upstreamParams,
-		cnf)
-
-	for k, v := range apis {
-		sw.Paths[k] = v
-	}
-
-	sw.Save(d)
-	preperror := d.Prep(path, sw)
-	if preperror != nil {
-		panic(preperror)
+	if err != nil {
+		panic(err)
 	}
 
 	fmt.Println("Done!")
@@ -337,7 +269,6 @@ func parseFlags() cnf {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("%+v\n", dfcnf)
 
 	outconfig := cnf{
 		config:         dfcnf,
@@ -347,7 +278,6 @@ func parseFlags() cnf {
 		resourcetype:   *resourcetype,
 		resourcefile:   *resourcefile,
 	}
-	fmt.Printf("%+v\n", outconfig.config.SwaggerTemplate)
 
 	return outconfig
 }
