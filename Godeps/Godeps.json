@@ -1,6 +1,6 @@
 {
 	"ImportPath": "github.com/ideo/dragonfruit-cli",
-	"GoVersion": "go1.5.1",
+	"GoVersion": "go1.7.3",
 	"Deps": [
 		{
 			"ImportPath": "github.com/boj/redistore",

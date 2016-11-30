@@ -256,18 +256,29 @@ func parseFlags() cnf {
 	/* If we do parse a file, what is the resource type for that file? */
 	var resourcetype = flag.String("type", "", "The resource type for the file.")
 
-	var conflocation = flag.String("conf", "/usr/local/etc/dragonfruit.conf", "Path to a config file.")
+	var conflocation = flag.String("conf", "", "Path to a config file.")
 
 	flag.Parse()
-
-	out, err := ioutil.ReadFile(*conflocation)
+	baseConf, err := ioutil.ReadFile("/usr/local/etc/dragonfruit.conf")
 	if err != nil {
-		panic("cannot find file " + *conflocation)
+		panic("base conf file missing")
 	}
 
-	err = json.Unmarshal(out, &dfcnf)
+	err = json.Unmarshal(baseConf, &dfcnf)
+
 	if err != nil {
 		panic(err)
+	}
+
+	if *conflocation != "" {
+		out, err := ioutil.ReadFile(*conflocation)
+		if err != nil {
+			panic("cannot find file " + *conflocation)
+		}
+		err = json.Unmarshal(out, &dfcnf)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	outconfig := cnf{
