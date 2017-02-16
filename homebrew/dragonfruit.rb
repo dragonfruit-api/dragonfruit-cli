@@ -35,7 +35,8 @@ class Dragonfruit < Formula
     ENV["GOPATH"] = buildpath
     ENV["PATH"] = ENV["PATH"] + ":" + buildpath + "/bin"
 
-    # install godep
+    # install govendor
+    system "go", "get", "-u", "github.com/kardianos/govendor"
 
     # retrieve Dragonfruit CLI and its dependencies
     mkdir_p buildpath/"src/github.com/ideo/"
@@ -43,7 +44,8 @@ class Dragonfruit < Formula
     Language::Go.stage_deps resources, buildpath/"src"
     # system "cp",  "bin/dragonfruit-cli", "dragonfruit"
 
-    system "go", "build", "-o", "dragonfruit", "."
+    system "./bin/govendor", "build", "-o", "dragonfruit", "."
+   # system "go", "build", "-o", "dragonfruit", "."
 
     etc.install "etc/dragonfruit.conf"
 
