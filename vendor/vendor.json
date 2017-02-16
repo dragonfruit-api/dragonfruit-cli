@@ -47,14 +47,14 @@
 		{
 			"checksumSHA1": "2UmMbNHc8FBr98mJFN1k8ISOIHk=",
 			"path": "github.com/garyburd/redigo/internal",
-			"revision": "48545177e92ae3e7bcdbd50b42f7a139e6a268da",
-			"revisionTime": "2017-02-08T21:16:23Z"
+			"revision": "0d253a66e6e1349f4581d6d2b300ee434ee2da9f",
+			"revisionTime": "2017-02-16T21:49:44Z"
 		},
 		{
 			"checksumSHA1": "81OSg/NapmTaRpSS+oYsPVE0b1Y=",
 			"path": "github.com/garyburd/redigo/redis",
-			"revision": "48545177e92ae3e7bcdbd50b42f7a139e6a268da",
-			"revisionTime": "2017-02-08T21:16:23Z"
+			"revision": "0d253a66e6e1349f4581d6d2b300ee434ee2da9f",
+			"revisionTime": "2017-02-16T21:49:44Z"
 		},
 		{
 			"checksumSHA1": "SYxDN6l6j6OJ9f9BQDzneaJBd0k=",
@@ -101,14 +101,14 @@
 		{
 			"checksumSHA1": "HNjyas3l1LTpYMe+tsnRA2CQYJ4=",
 			"path": "github.com/ideo/dragonfruit",
-			"revision": "98ddd8c16f1722f6ffdda893ca525b2869bdb083",
-			"revisionTime": "2017-02-16T17:30:54Z"
+			"revision": "cb7aea64569e87633ccd0871ac313d4c7e3596e0",
+			"revisionTime": "2017-02-16T22:34:04Z"
 		},
 		{
-			"checksumSHA1": "aBqWKyDJRTe7bnVpq8Uu1c877lo=",
+			"checksumSHA1": "iGdxu9/Yk22/jrAp/ZHo9KHOOxU=",
 			"path": "github.com/ideo/dragonfruit/backends/backend_couchdb",
-			"revision": "98ddd8c16f1722f6ffdda893ca525b2869bdb083",
-			"revisionTime": "2017-02-16T17:30:54Z"
+			"revision": "cb7aea64569e87633ccd0871ac313d4c7e3596e0",
+			"revisionTime": "2017-02-16T22:34:04Z"
 		},
 		{
 			"checksumSHA1": "lcQCWGN8rTHBhM5SCfBh8+g8rfE=",
