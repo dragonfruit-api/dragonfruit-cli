@@ -15,7 +15,8 @@ class Dragonfruit < Formula
 
   #option "without-completions", "Disable bash/zsh completions"
 
-  depends_on "go" => :build
+  depends_on "go" => :build    
+  depends_on "govendor" => :build
 
   depends_on :hg => :build
   depends_on "couchdb"
@@ -34,23 +35,25 @@ class Dragonfruit < Formula
     # set up gopath for local installation
     ENV["GOPATH"] = buildpath
     ENV["PATH"] = ENV["PATH"] + ":" + buildpath + "/bin"
-
+    (buildpath/"src/github.com/ideo/dragonfruit-cli").install buildpath.children
+    cd "src/github.com/ideo/dragonfruit-cli" do
+      system "govendor", "sync"
+      system "go", "build", "-o", "dragonfruit", "."
+      etc.install "etc/dragonfruit.conf"
+      bin.install "dragonfruit"
+    end
     # install govendor
-    system "go", "get", "-u", "github.com/kardianos/govendor"
+
 
     # retrieve Dragonfruit CLI and its dependencies
-    mkdir_p buildpath/"src/github.com/ideo/"
-    ln_sf buildpath, buildpath/"src/github.com/ideo/dragonfruit-cli"
-    Language::Go.stage_deps resources, buildpath/"src"
     # system "cp",  "bin/dragonfruit-cli", "dragonfruit"
 
-    system "./bin/govendor", "build", "-o", "dragonfruit", "."
    # system "go", "build", "-o", "dragonfruit", "."
 
-    etc.install "etc/dragonfruit.conf"
+
 
     # Build and install dragonfruit
-    bin.install buildpath + "dragonfruit"
+
     
   end
 
