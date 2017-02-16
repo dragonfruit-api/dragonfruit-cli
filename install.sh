@@ -12,7 +12,6 @@ brew uninstall dragonfruit
 # set up dragonfruit
 echo "\n\n"
 cd $TDIR
-git clone "https://github.com/ideo/homebrew.git"
 cd "homebrew/dragonfruit"
 brew install "dragonfruit.rb"
 
