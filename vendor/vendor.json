@@ -101,14 +101,14 @@
 		{
 			"checksumSHA1": "HNjyas3l1LTpYMe+tsnRA2CQYJ4=",
 			"path": "github.com/ideo/dragonfruit",
-			"revision": "e12d17a1fe352010c24a356679df5f9f8a18f8d6",
-			"revisionTime": "2017-02-17T02:21:19Z"
+			"revision": "1fa9fba0878aac00bac93f859b2c7a6f912d7db3",
+			"revisionTime": "2017-02-17T15:00:57Z"
 		},
 		{
-			"checksumSHA1": "iGdxu9/Yk22/jrAp/ZHo9KHOOxU=",
+			"checksumSHA1": "4112pIV5NVrtVKUAuuAhPPSRZrE=",
 			"path": "github.com/ideo/dragonfruit/backends/backend_couchdb",
-			"revision": "cb7aea64569e87633ccd0871ac313d4c7e3596e0",
-			"revisionTime": "2017-02-16T22:34:04Z"
+			"revision": "1fa9fba0878aac00bac93f859b2c7a6f912d7db3",
+			"revisionTime": "2017-02-17T15:00:57Z"
 		},
 		{
 			"checksumSHA1": "lcQCWGN8rTHBhM5SCfBh8+g8rfE=",

@@ -44,14 +44,6 @@ class Dragonfruit < Formula
     end
     # install govendor
 
-
-    # retrieve Dragonfruit CLI and its dependencies
-    # system "cp",  "bin/dragonfruit-cli", "dragonfruit"
-
-   # system "go", "build", "-o", "dragonfruit", "."
-
-
-
     # Build and install dragonfruit
 
     
