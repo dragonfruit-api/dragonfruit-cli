@@ -84,6 +84,10 @@ func (vd *viewDoc) makePathParamView(api *dragonfruit.PathItem,
 	op *dragonfruit.Operation,
 	resource *dragonfruit.Swagger) {
 
+	if !dragonfruit.TerminalPath.MatchString(path) {
+		return
+	}
+
 	matches := dragonfruit.PathRe.FindAllStringSubmatch(path, -1)
 	tpath := dragonfruit.TranslatePath(path)
 	viewname := makePathViewName(tpath)
