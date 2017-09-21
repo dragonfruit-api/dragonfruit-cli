@@ -4,7 +4,7 @@ class Dragonfruit < Formula
   homepage "https://github.com/ideo/dragonfruit"
 
   url "https://github.com/ideo/dragonfruit-cli.git", :using => :git
-  version "0.5.3"
+  version "0.5.4"
 
   # bottle do
   #  cellar :any

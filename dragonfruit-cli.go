@@ -24,7 +24,7 @@ import (
 )
 
 const (
-	VERSION = "0.5.3"
+	VERSION = "0.5.5"
 )
 
 type cnf struct {
