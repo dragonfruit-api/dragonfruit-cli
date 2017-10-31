@@ -1,6 +1,103 @@
 {
 	"comment": "",
 	"ignore": "test",
-	"package": [],
+	"package": [
+		{
+			"checksumSHA1": "nB4SVW6evKR8QoZ9ca9z6yZ7kGU=",
+			"path": "github.com/boj/redistore",
+			"revision": "4562487a4bee9a7c272b72bfaeda4917d0a47ab9",
+			"revisionTime": "2017-04-19T03:05:11Z"
+		},
+		{
+			"checksumSHA1": "fcfxNsCuheCrubAAl6zWgimCnLY=",
+			"path": "github.com/codegangsta/inject",
+			"revision": "33e0aa1cb7c019ccc3fbe049a8262a6403d30504",
+			"revisionTime": "2015-01-14T23:56:00Z"
+		},
+		{
+			"checksumSHA1": "Kxjc8Efryx3C/elsRmCW/UEM7sc=",
+			"path": "github.com/fjl/go-couchdb",
+			"revision": "1f327c218d24c98ba4067e086a2787c1488ba558",
+			"revisionTime": "2014-07-04T15:13:33Z"
+		},
+		{
+			"checksumSHA1": "2UmMbNHc8FBr98mJFN1k8ISOIHk=",
+			"path": "github.com/garyburd/redigo/internal",
+			"revision": "06066d2f143c573c5cc10a91893dbe92103f4e92",
+			"revisionTime": "2017-10-30T18:08:28Z"
+		},
+		{
+			"checksumSHA1": "8qM6LDoSxDC+3Y4+lewd1xWZE8w=",
+			"path": "github.com/garyburd/redigo/redis",
+			"revision": "06066d2f143c573c5cc10a91893dbe92103f4e92",
+			"revisionTime": "2017-10-30T18:08:28Z"
+		},
+		{
+			"checksumSHA1": "SYxDN6l6j6OJ9f9BQDzneaJBd0k=",
+			"path": "github.com/gedex/inflector",
+			"revision": "16278e9db8130ac7ec405dc174cfb94344f16325",
+			"revisionTime": "2017-03-07T19:08:18Z"
+		},
+		{
+			"checksumSHA1": "yQqYQc9nHrkGNNEdQ0bcwb1qe3o=",
+			"path": "github.com/go-martini/martini",
+			"revision": "22fa46961aabd2665cf3f1343b146d20028f5071",
+			"revisionTime": "2017-01-21T21:58:54Z"
+		},
+		{
+			"checksumSHA1": "g/V4qrXjUGG9B+e3hB+4NAYJ5Gs=",
+			"path": "github.com/gorilla/context",
+			"revision": "08b5f424b9271eedf6f9f0ce86cb9396ed337a42",
+			"revisionTime": "2016-08-17T18:46:32Z"
+		},
+		{
+			"checksumSHA1": "ucTBCc7dDRKLGPsYfAzu/Gq63qA=",
+			"path": "github.com/gorilla/securecookie",
+			"revision": "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983",
+			"revisionTime": "2017-02-24T19:38:04Z"
+		},
+		{
+			"checksumSHA1": "dxwmtflRNX8Q+gtB5EchmMwFnpQ=",
+			"path": "github.com/gorilla/sessions",
+			"revision": "a3acf13e802c358d65f249324d14ed24aac11370",
+			"revisionTime": "2017-10-08T21:47:40Z"
+		},
+		{
+			"checksumSHA1": "C47QtzEwKiwf47yNAlLIJ5e6YCA=",
+			"path": "github.com/ideo/dragonfruit",
+			"revision": "bc0b60405c5f90f21010c040c3d01f80f4105d5b",
+			"revisionTime": "2017-10-30T03:22:11Z"
+		},
+		{
+			"checksumSHA1": "P4MIR92USBqOh6WUkZnapGIsEVE=",
+			"path": "github.com/ideo/dragonfruit/backends/backend_couchdb",
+			"revision": "bc0b60405c5f90f21010c040c3d01f80f4105d5b",
+			"revisionTime": "2017-10-30T03:22:11Z"
+		},
+		{
+			"checksumSHA1": "zlwOW/qUO9y3lzmJc9/qG0L72b4=",
+			"path": "github.com/martini-contrib/cors",
+			"revision": "553b9208d353a39b0850c02355f478ba020c86d7",
+			"revisionTime": "2014-10-16T00:30:11Z"
+		},
+		{
+			"checksumSHA1": "lcQCWGN8rTHBhM5SCfBh8+g8rfE=",
+			"path": "github.com/martini-contrib/gzip",
+			"revision": "6c035326b43f79aa18793d2f1db512d21253ea61",
+			"revisionTime": "2015-11-24T21:41:56Z"
+		},
+		{
+			"checksumSHA1": "5X9gKYDcjO/gqmaZBlWVUu8S35E=",
+			"path": "github.com/martini-contrib/sessions",
+			"revision": "fa13114fbcf036dff8185d728651d85fcef772db",
+			"revisionTime": "2014-06-30T23:17:22Z"
+		},
+		{
+			"checksumSHA1": "Se195FlZ160eaEk/uVx4KdTPSxU=",
+			"path": "github.com/pborman/uuid",
+			"revision": "e790cca94e6cc75c7064b1332e63811d4aae1a53",
+			"revisionTime": "2017-06-12T15:36:48Z"
+		}
+	],
 	"rootPath": "github.com/ideo/dragonfruit-cli"
 }
