@@ -20,8 +20,8 @@ import (
 )
 
 const (
-	VERSION = "0.5.5"
-        PATH_TO_DEFAULT_CONFIG = "/usr/local/etc/dragonfruit.conf"
+	VERSION                = "0.5.5"
+	PATH_TO_DEFAULT_CONFIG = "/usr/local/etc/dragonfruit.conf"
 )
 
 type cnf struct {
