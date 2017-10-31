@@ -1,20 +1,19 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
-
-	"github.com/go-martini/martini"
-	"github.com/ideo/dragonfruit"
-
 	"bufio"
+	"encoding/json"
 	"flag"
+	"fmt"
 	"github.com/gedex/inflector"
 	"io/ioutil"
 	"net/http"
 	"os"
 
-	"github.com/ideo/dragonfruit/backends/backend_couchdb"
+	"github.com/dragonfruit-api/dragonfruit"
+	"github.com/dragonfruit-api/dragonfruit/backends/backend_couchdb"
+
+	"github.com/go-martini/martini"
 	"github.com/martini-contrib/gzip"
 	"github.com/martini-contrib/sessions"
 )
