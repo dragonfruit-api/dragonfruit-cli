@@ -1,9 +1,9 @@
 require "language/go"
 
 class Dragonfruit < Formula
-  homepage "https://github.com/ideo/dragonfruit"
+  homepage "https://github.com/dragonfruit-api"
 
-  url "https://github.com/ideo/dragonfruit-cli.git", :using => :git
+  url "https://github.com/dragonfruit-api/dragonfruit-cli.git", :using => :git
   version "0.5.5"
 
   # bottle do
@@ -35,8 +35,8 @@ class Dragonfruit < Formula
     # set up gopath for local installation
     ENV["GOPATH"] = buildpath
     ENV["PATH"] = ENV["PATH"] + ":" + buildpath + "/bin"
-    (buildpath/"src/github.com/ideo/dragonfruit-cli").install buildpath.children
-    cd "src/github.com/ideo/dragonfruit-cli" do
+    (buildpath/"src/github.com/dragonfruit-api/dragonfruit-cli").install buildpath.children
+    cd "src/github.com/dragonfruit-api/dragonfruit-cli" do
       system "govendor", "sync"
       system "go", "build", "-o", "dragonfruit", "."
       etc.install "etc/dragonfruit.conf"
