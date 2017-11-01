@@ -15,6 +15,18 @@
 			"revisionTime": "2015-01-14T23:56:00Z"
 		},
 		{
+			"checksumSHA1": "OdEbV0Ovd4cSOz/aDo5PGKA2M6A=",
+			"path": "github.com/dragonfruit-api/dragonfruit",
+			"revision": "92fbba95fad49ff2d71967bfa095b99105690c7e",
+			"revisionTime": "2017-10-31T17:03:48Z"
+		},
+		{
+			"checksumSHA1": "3brOLR08ktRXFxGJk0USBooFkLc=",
+			"path": "github.com/dragonfruit-api/dragonfruit/backends/backend_couchdb",
+			"revision": "92fbba95fad49ff2d71967bfa095b99105690c7e",
+			"revisionTime": "2017-10-31T17:03:48Z"
+		},
+		{
 			"checksumSHA1": "Kxjc8Efryx3C/elsRmCW/UEM7sc=",
 			"path": "github.com/fjl/go-couchdb",
 			"revision": "1f327c218d24c98ba4067e086a2787c1488ba558",
@@ -61,18 +73,6 @@
 			"path": "github.com/gorilla/sessions",
 			"revision": "a3acf13e802c358d65f249324d14ed24aac11370",
 			"revisionTime": "2017-10-08T21:47:40Z"
-		},
-		{
-			"checksumSHA1": "C47QtzEwKiwf47yNAlLIJ5e6YCA=",
-			"path": "github.com/ideo/dragonfruit",
-			"revision": "bc0b60405c5f90f21010c040c3d01f80f4105d5b",
-			"revisionTime": "2017-10-30T03:22:11Z"
-		},
-		{
-			"checksumSHA1": "P4MIR92USBqOh6WUkZnapGIsEVE=",
-			"path": "github.com/ideo/dragonfruit/backends/backend_couchdb",
-			"revision": "bc0b60405c5f90f21010c040c3d01f80f4105d5b",
-			"revisionTime": "2017-10-30T03:22:11Z"
 		},
 		{
 			"checksumSHA1": "zlwOW/qUO9y3lzmJc9/qG0L72b4=",
